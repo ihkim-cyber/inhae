@@ -170,7 +170,7 @@ function generateAdEvents(): AdEvent[] {
 
   const allEvents: AdEvent[] = [...baseEvents];
 
-  for (let i = 7; i <= 60; i++) {
+  for (let i = 7; i <= 100; i++) {
     const statusIdx = (i - 1) % adStatuses.length;
     const thumbIdx = (i - 1) % thumbnails.length;
     const nameIdx = (i - 1) % eventNames.length;
@@ -356,7 +356,7 @@ function generateMaterialEvents(): MaterialEvent[] {
 
   const allEvents: MaterialEvent[] = [...baseEvents];
 
-  for (let i = 8; i <= 70; i++) {
+  for (let i = 8; i <= 100; i++) {
     const statusIdx = (i - 1) % adStatuses.length;
     const thumbIdx = (i - 1) % thumbnails.length;
     const nameIdx = (i - 1) % eventNames.length;
