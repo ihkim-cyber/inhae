@@ -1,33 +1,25 @@
-import { Info, Circle } from 'lucide-react';
 import type { AdStatus, ReviewStatus } from '../types/event';
-
-const adStatusStyles: Record<AdStatus, string> = {
-  잔액부족: 'bg-red-100 text-red-700',
-  라이브: 'bg-green-100 text-green-700',
-  기간종료: 'bg-gray-100 text-gray-700',
-  대기: 'bg-white text-gray-700 border border-gray-300',
-  중지: 'bg-red-100 text-red-700',
-};
-
-const reviewStatusStyles: Record<ReviewStatus, string> = {
-  승인: 'text-green-600',
-  반려: 'text-red-600',
-  검수중: 'text-gray-600',
-};
 
 interface AdStatusBadgeProps {
   status: AdStatus;
-  showIcon?: boolean;
 }
 
-export function AdStatusBadge({ status, showIcon = true }: AdStatusBadgeProps) {
-  const isLive = status === '라이브';
+export function AdStatusBadge({ status }: AdStatusBadgeProps) {
+  const config: Record<AdStatus, { dot: string; text: string; bg: string }> = {
+    잔액부족: { dot: 'bg-orange-400', text: 'text-orange-600', bg: 'bg-orange-50' },
+    라이브: { dot: 'bg-green-500', text: 'text-green-700', bg: 'bg-green-50' },
+    기간종료: { dot: 'bg-gray-400', text: 'text-gray-600', bg: 'bg-gray-50' },
+    대기: { dot: '', text: 'text-gray-600', bg: 'bg-white' },
+    중지: { dot: 'bg-red-400', text: 'text-red-600', bg: 'bg-red-50' },
+  };
+
+  const c = config[status];
+
   return (
-    <span
-      className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-sm font-medium ${adStatusStyles[status]}`}
-    >
-      {showIcon && isLive && <Circle className="w-2.5 h-2.5 fill-current" />}
-      {showIcon && !isLive && status !== '대기' && <Info className="w-3.5 h-3.5" />}
+    <span className={`inline-flex items-center gap-1.5 px-2 py-1 rounded-md text-sm font-medium ${c.text} ${c.bg}`}>
+      {status !== '대기' && (
+        <span className={`w-2 h-2 rounded-full ${c.dot} flex-shrink-0`} />
+      )}
       {status}
     </span>
   );
@@ -39,17 +31,22 @@ interface ReviewStatusBadgeProps {
 }
 
 export function ReviewStatusBadge({ status, rejectionReason }: ReviewStatusBadgeProps) {
+  const config: Record<ReviewStatus, { dot: string; text: string }> = {
+    승인: { dot: 'bg-green-500', text: 'text-green-700' },
+    반려: { dot: 'bg-red-500', text: 'text-red-600' },
+    검수중: { dot: 'bg-yellow-500', text: 'text-gray-600' },
+  };
+
+  const c = config[status];
+
   return (
     <div className="flex flex-col gap-0.5">
-      <span className={`inline-flex items-center gap-1.5 text-sm font-medium ${reviewStatusStyles[status]}`}>
-        <span className={`w-2 h-2 rounded-full ${
-          status === '승인' ? 'bg-green-500' :
-          status === '반려' ? 'bg-red-500' : 'bg-gray-400'
-        }`} />
+      <span className={`inline-flex items-center gap-1.5 text-sm font-medium ${c.text}`}>
+        <span className={`w-2 h-2 rounded-full ${c.dot}`} />
         {status}
       </span>
       {status === '반려' && rejectionReason && (
-        <button className="text-blue-600 text-xs text-left hover:underline">반려사유</button>
+        <span className="text-red-500 text-xs">{rejectionReason}</span>
       )}
     </div>
   );

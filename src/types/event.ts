@@ -9,9 +9,11 @@ export interface AdEvent {
   category: string;
   eventName: string;
   thumbnail?: string;
+  thumbnailColor?: string;
   rating?: number;
   reviewCount?: number;
   region?: string;
+  brandLabel?: string;
   bidPrice: string;
   bidType?: string;
   bidTarget?: string;
@@ -36,11 +38,14 @@ export interface MaterialEvent {
   category: string;
   eventName: string;
   thumbnail?: string;
+  thumbnailColor?: string;
   region?: string;
+  brandLabel?: string;
   price: string;
   priceType?: string;
   discount?: number;
   applicationCount: number;
+  resultType?: string;
   rating?: number;
   reviewCount?: number;
   hasReviewConnection?: boolean;

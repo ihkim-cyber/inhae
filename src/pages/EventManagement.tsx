@@ -21,8 +21,8 @@ export function EventManagement() {
   const [languageFilter, setLanguageFilter] = useState('');
 
   const categories = ['피부', '눈', '얼굴', '코'];
-  const adStatuses = ['전체', '잔액부족', '라이브', '기간종료', '대기', '중지'];
-  const languages = ['전체', '한국어', '일본어'];
+  const adStatuses = ['잔액부족', '라이브', '기간종료', '대기', '중지'];
+  const languages = ['한국어', '일본어'];
 
   const filteredAdEvents = useMemo(() => {
     return adEvents.filter((event) => {
@@ -80,31 +80,41 @@ export function EventManagement() {
     setCurrentPage(1);
   };
 
+  const handleTabChange = (tab: TabType) => {
+    setActiveTab(tab);
+    setCurrentPage(1);
+    setSearchQuery('');
+    setAdStatusFilter('');
+    setCategoryFilter('');
+    setAdTypeFilter('');
+    setLanguageFilter('');
+  };
+
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
       <Header />
       <main className="max-w-[1600px] mx-auto px-6 py-8">
         <h1 className="text-2xl font-bold text-gray-900 mb-6">이벤트 관리</h1>
 
         {/* Tabs */}
         <div className="mb-6">
-          <div className="flex gap-8 border-b border-gray-200">
+          <div className="flex gap-6 border-b border-gray-200">
             <button
-              onClick={() => setActiveTab('ad')}
-              className={`pb-3 px-1 font-medium text-sm transition-colors ${
+              onClick={() => handleTabChange('ad')}
+              className={`pb-3 px-1 font-medium text-base transition-colors ${
                 activeTab === 'ad'
-                  ? 'text-primary-600 border-b-2 border-primary-600'
-                  : 'text-gray-500 hover:text-gray-700'
+                  ? 'text-gray-900 border-b-2 border-gray-900'
+                  : 'text-gray-400 hover:text-gray-600'
               }`}
             >
               광고
             </button>
             <button
-              onClick={() => setActiveTab('material')}
-              className={`pb-3 px-1 font-medium text-sm transition-colors ${
+              onClick={() => handleTabChange('material')}
+              className={`pb-3 px-1 font-medium text-base transition-colors ${
                 activeTab === 'material'
-                  ? 'text-primary-600 border-b-2 border-primary-600'
-                  : 'text-gray-500 hover:text-gray-700'
+                  ? 'text-gray-900 border-b-2 border-gray-900'
+                  : 'text-gray-400 hover:text-gray-600'
               }`}
             >
               소재
@@ -113,7 +123,7 @@ export function EventManagement() {
         </div>
 
         {/* Filters */}
-        <div className="bg-white rounded-lg border border-gray-200 p-4 mb-4">
+        <div className="mb-4">
           <div className="flex flex-wrap gap-3 items-center">
             {activeTab === 'ad' && (
               <select
@@ -132,7 +142,7 @@ export function EventManagement() {
               className="border border-gray-300 rounded-lg px-3 py-2 text-sm min-w-[120px] bg-white"
             >
               <option value="">광고 상태</option>
-              {adStatuses.slice(1).map((status) => (
+              {adStatuses.map((status) => (
                 <option key={status} value={status}>
                   {status}
                 </option>
@@ -157,7 +167,7 @@ export function EventManagement() {
                 className="border border-gray-300 rounded-lg px-3 py-2 text-sm min-w-[120px] bg-white"
               >
                 <option value="">언어</option>
-                {languages.slice(1).map((lang) => (
+                {languages.map((lang) => (
                   <option key={lang} value={lang}>
                     {lang}
                   </option>
@@ -174,10 +184,17 @@ export function EventManagement() {
             />
             <button
               onClick={handleSearch}
-              className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg font-medium hover:bg-gray-300"
+              className="px-5 py-2 bg-gray-100 text-gray-700 rounded-lg font-medium hover:bg-gray-200 text-sm border border-gray-300"
             >
               검색
             </button>
+
+            {activeTab === 'material' && (
+              <div className="ml-auto flex items-center gap-1.5 text-sm text-gray-500">
+                <span className="w-5 h-5 rounded-full border border-gray-300 flex items-center justify-center text-xs">ⓘ</span>
+                <span>설명 CPV 전환 및 굿닥 연동 종료 안내</span>
+              </div>
+            )}
           </div>
         </div>
 
